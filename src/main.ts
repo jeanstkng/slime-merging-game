@@ -2,10 +2,10 @@
 import { Color, Engine, Physics, vec } from "excalibur";
 import { initializeBasket } from "./gameObjects/basket";
 import { dropper } from "./gameObjects/dropper";
+import { loader } from "./managers/assetsManager";
+import { hint } from "./gameObjects/hint";
+import { scoreText } from "./gameObjects/score";
 
-// Create an instance of the engine.
-// I'm specifying that the game be 800 pixels wide by 600 pixels tall.
-// If no dimensions are specified the game will fit to the screen.
 Physics.useRealisticPhysics();
 Physics.acc = vec(0, 300);
 
@@ -15,8 +15,10 @@ const game = new Engine({
   backgroundColor: Color.fromHex("#ff9c9c"),
 });
 
-game.start();
+game.start(loader);
 
 initializeBasket(game);
 
 game.add(dropper);
+game.add(hint);
+game.add(scoreText);

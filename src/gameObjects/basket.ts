@@ -1,4 +1,12 @@
-import { Actor, CollisionType, Color, Engine } from "excalibur";
+import {
+  Actor,
+  CollisionGroupManager,
+  CollisionType,
+  Color,
+  Engine,
+} from "excalibur";
+
+const basketGroup = CollisionGroupManager.create("basket");
 
 const bottomBasket: Actor = new Actor({
   x: 640,
@@ -6,6 +14,7 @@ const bottomBasket: Actor = new Actor({
   width: 420,
   height: 20,
   color: Color.fromHex("#a60e0e"),
+  collisionGroup: basketGroup,
 });
 
 const rightBasket: Actor = new Actor({
@@ -14,6 +23,7 @@ const rightBasket: Actor = new Actor({
   width: 20,
   height: 500,
   color: Color.fromHex("#a60e0e"),
+  collisionGroup: basketGroup,
 });
 
 const leftBasket: Actor = new Actor({
@@ -22,9 +32,36 @@ const leftBasket: Actor = new Actor({
   width: 20,
   height: 500,
   color: Color.fromHex("#a60e0e"),
+  collisionGroup: basketGroup,
 });
 
-const basket: Actor[] = [bottomBasket, leftBasket, rightBasket];
+const upperLeftBasket: Actor = new Actor({
+  x: 414,
+  y: 95,
+  rotation: -10,
+  width: 20,
+  height: 50,
+  color: Color.fromHex("#a60e0e"),
+  collisionGroup: basketGroup,
+});
+
+const upperRightBasket: Actor = new Actor({
+  x: 865,
+  y: 95,
+  rotation: 10,
+  width: 20,
+  height: 50,
+  color: Color.fromHex("#a60e0e"),
+  collisionGroup: basketGroup,
+});
+
+const basket: Actor[] = [
+  bottomBasket,
+  leftBasket,
+  rightBasket,
+  upperLeftBasket,
+  upperRightBasket
+];
 
 const initializeBasket = (game: Engine) => {
   basket.forEach((item) => {
@@ -33,4 +70,4 @@ const initializeBasket = (game: Engine) => {
   });
 };
 
-export { initializeBasket };
+export { initializeBasket, basketGroup };
