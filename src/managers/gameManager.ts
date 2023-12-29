@@ -6,6 +6,7 @@ const gameState: IGameState = {
   actualVariantIndex: getRandomVariantIndex(5),
   followingVariantIndex: getRandomVariantIndex(5),
   score: 0,
+  isGameOver: false,
 };
 
 function setNextVariantIndex(state: IGameState, value: number): void {
@@ -22,6 +23,10 @@ function setFollowingVariantIndex(state: IGameState, value: number): void {
 
 function setScore(state: IGameState, value: number): void {
   state.score = value;
+}
+
+function setIsGameOver(state: IGameState, value: boolean) {
+  state.isGameOver = value;
 }
 
 function getRandomVariantIndex(variantLen: number): number {
@@ -45,4 +50,5 @@ export {
   setActualVariantIndex,
   setFollowingVariantIndex,
   setScore,
+  setIsGameOver,
 };

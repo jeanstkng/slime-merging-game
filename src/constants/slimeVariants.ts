@@ -2,47 +2,47 @@ import { ActorArgs } from "excalibur";
 
 const slimeVariants: ActorArgs[] = [
   {
-    radius: 16,
+    radius: 20,
     name: "0",
   },
   {
-    radius: 22,
+    radius: 28,
     name: "1",
   },
   {
-    radius: 28,
+    radius: 36,
     name: "2",
   },
   {
-    radius: 34,
+    radius: 44,
     name: "3",
   },
   {
-    radius: 40,
+    radius: 52,
     name: "4",
   },
   {
-    radius: 46,
+    radius: 60,
     name: "5",
   },
   {
-    radius: 52,
+    radius: 68,
     name: "6",
   },
   {
-    radius: 58,
+    radius: 76,
     name: "7",
   },
   {
-    radius: 64,
+    radius: 84,
     name: "8",
   },
   {
-    radius: 70,
+    radius: 92,
     name: "9",
   },
   {
-    radius: 76,
+    radius: 100,
     name: "10",
   },
 ];

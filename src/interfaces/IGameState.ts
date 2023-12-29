@@ -3,4 +3,5 @@ export interface IGameState {
   actualVariantIndex: number;
   followingVariantIndex: number;
   score: number;
+  isGameOver: boolean;
 }

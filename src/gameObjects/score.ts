@@ -1,14 +1,14 @@
 import { Actor, Font, Text } from "excalibur";
 
 const text = new Text({
-  text: "Score: 0",
-  font: new Font({ size: 30 }),
+  text: "SCORE: 0",
+  font: new Font({ size: 36, family: "bungeeregular" }),
   maxWidth: 300,
 });
 
 const scoreText = new Actor({
-  x: 640,
-  y: 675,
+  x: 320,
+  y: 1000,
 });
 
 scoreText.graphics.use(text);

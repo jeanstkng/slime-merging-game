@@ -11,14 +11,16 @@ import { Images, getSpriteWithSize } from "../managers/assetsManager";
 import { IImages } from "../interfaces/IImages";
 
 class Dropper extends ex.Actor {
-  private dropDelay: number = 1500;
+  private dropDelay: number = 2000;
   private dropCounter: number = 0;
-  private canDrop: boolean = true;
-  private rightLimit: number = 853;
-  private leftLimit: number = 426;
+  private canDrop: boolean = false;
+  private rightLimit: number = 586;
+  private leftLimit: number = 53;
+  private upperLimit: number = 100;
   private actualSlimeDropping: ex.ActorArgs = {};
   private actualSlimeCircle!: ex.Actor;
   private readonly maxVariant: number = 5;
+  private helpLine!: ex.Actor;
 
   public onInitialize(engine: ex.Engine): void {
     this.graphics.add(getSpriteWithSize(Images.moustacheImage, 64));
@@ -33,22 +35,34 @@ class Dropper extends ex.Actor {
       height: this.actualSlimeDropping.radius,
     });
 
-    this.actualSlimeCircle.graphics.use(
-      getSpriteWithSize(
-        Images[`slime${gameState.actualVariantIndex}Image` as keyof IImages],
-        this.actualSlimeDropping.radius!
-      )
-    );
-
     engine.add(this.actualSlimeCircle);
+
+    this._handleRightClick(engine);
+    this._handleTouchEnd(engine);
+
+    this.helpLine = new ex.Actor({
+      pos: ex.vec(this.pos.x, this.pos.y),
+      z: -1,
+    });
+    this.helpLine.graphics.anchor = ex.Vector.Zero;
+    this.helpLine.graphics.use(
+      new ex.Line({
+        start: ex.vec(0, 0),
+        end: ex.vec(0, 730),
+        color: ex.Color.LightGray,
+        thickness: 8,
+      })
+    );
+    engine.add(this.helpLine);
   }
 
   public update(engine: ex.Engine, delta: number): void {
     this.actualSlimeCircle.pos = this.pos;
+    this.helpLine.pos = this.pos;
 
     if (this.dropCounter > this.dropDelay && !this.canDrop) {
       this.dropCounter = 0;
-      this.canDrop = true;
+      this.actualSlimeCircle.graphics.visible = true;
 
       setActualVariantIndex(gameState, gameState.followingVariantIndex);
 
@@ -65,6 +79,7 @@ class Dropper extends ex.Actor {
           this.actualSlimeDropping.radius!
         )
       );
+      this.canDrop = true;
     } else {
       this.dropCounter += delta;
     }
@@ -73,12 +88,11 @@ class Dropper extends ex.Actor {
       engine.input.pointers.at(0).lastScreenPos.x;
     if (
       lastScreenMouseHorizontalPos > this.leftLimit &&
-      lastScreenMouseHorizontalPos < this.rightLimit
+      lastScreenMouseHorizontalPos < this.rightLimit &&
+      !gameState.isGameOver
     ) {
       dropper.pos.x = engine.input.pointers.at(0).lastScreenPos.x;
     }
-
-    this._handleRightClick(engine);
   }
 
   private _handleRightClick(engine: ex.Engine): void {
@@ -86,7 +100,33 @@ class Dropper extends ex.Actor {
       if (
         pe.pointerType === ex.PointerType.Mouse &&
         pe.button === ex.PointerButton.Left &&
-        this.canDrop
+        this.canDrop &&
+        !gameState.isGameOver &&
+        pe.worldPos.x > this.leftLimit &&
+        pe.worldPos.x < this.rightLimit &&
+        pe.worldPos.y > this.upperLimit
+      ) {
+        this.canDrop = false;
+        this.actualSlimeCircle.graphics.visible = false;
+
+        const slimeProps = slimeVariants[gameState.actualVariantIndex];
+
+        const slime: Slime = generateSlime(dropper.pos, slimeProps);
+
+        engine.add(slime);
+      }
+    });
+  }
+
+  private _handleTouchEnd(engine: ex.Engine): void {
+    engine.input.pointers.primary.on("up", (pe) => {
+      if (
+        pe.pointerType === ex.PointerType.Touch &&
+        this.canDrop &&
+        !gameState.isGameOver &&
+        pe.worldPos.x > this.leftLimit &&
+        pe.worldPos.x < this.rightLimit &&
+        pe.worldPos.y > this.upperLimit
       ) {
         this.canDrop = false;
 
@@ -95,14 +135,12 @@ class Dropper extends ex.Actor {
         const slime: Slime = generateSlime(dropper.pos, slimeProps);
 
         engine.add(slime);
-      } else if (pe.pointerType === ex.PointerType.Touch) {
-        ex.Logger.getInstance().info("Touch event:", pe);
       }
     });
   }
 }
 
 export const dropper: Dropper = new Dropper({
-  x: 1280 / 2,
-  y: 60,
+  x: 320,
+  y: 180,
 });

@@ -2,65 +2,69 @@ import {
   Actor,
   CollisionGroupManager,
   CollisionType,
-  Color,
   Engine,
+  vec,
 } from "excalibur";
+import { Images } from "../managers/assetsManager";
 
 const basketGroup = CollisionGroupManager.create("basket");
 
 const bottomBasket: Actor = new Actor({
-  x: 640,
-  y: 600,
-  width: 420,
+  x: 320,
+  y: 920,
+  width: 537,
   height: 20,
-  color: Color.fromHex("#a60e0e"),
+  // color: Color.fromHex("#a60e0e"),
   collisionGroup: basketGroup,
 });
 
 const rightBasket: Actor = new Actor({
-  x: 853,
-  y: 360,
+  x: 586.63,
+  y: 610,
   width: 20,
-  height: 500,
-  color: Color.fromHex("#a60e0e"),
+  height: 640,
+  // color: Color.fromHex("#a60e0e"),
   collisionGroup: basketGroup,
 });
 
 const leftBasket: Actor = new Actor({
-  x: 426,
-  y: 360,
+  x: 53.33,
+  y: 610,
   width: 20,
-  height: 500,
-  color: Color.fromHex("#a60e0e"),
+  height: 640,
+  // color: Color.fromHex("#a60e0e"),
   collisionGroup: basketGroup,
 });
 
 const upperLeftBasket: Actor = new Actor({
-  x: 414,
-  y: 95,
+  x: 41,
+  y: 274,
   rotation: -10,
   width: 20,
   height: 50,
-  color: Color.fromHex("#a60e0e"),
+  // color: Color.fromHex("#a60e0e"),
   collisionGroup: basketGroup,
 });
 
 const upperRightBasket: Actor = new Actor({
-  x: 865,
-  y: 95,
+  x: 599,
+  y: 274,
   rotation: 10,
   width: 20,
   height: 50,
-  color: Color.fromHex("#a60e0e"),
+  // color: Color.fromHex("#a60e0e"),
   collisionGroup: basketGroup,
 });
+
+bottomBasket.graphics.add(Images.basketImage.toSprite());
+bottomBasket.graphics.offset = vec(0, -350);
 
 const basket: Actor[] = [
   bottomBasket,
   leftBasket,
   rightBasket,
   upperLeftBasket,
-  upperRightBasket
+  upperRightBasket,
 ];
 
 const initializeBasket = (game: Engine) => {
