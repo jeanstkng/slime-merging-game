@@ -1,5 +1,152 @@
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: black;
+    background-color: #ff9c9c;
+    font-family: "bungeeregular";
   }
+}
+
+button#excalibur-play::after {
+  border-color: transparent transparent transparent black !important;
+}
+
+#gameover {
+  position: absolute;
+  width: 50vw;
+  height: 50vh;
+  background-color: #a48fa5;
+  border: 10px solid;
+  border-radius: 10px;
+  border-color: #312630;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  display: none;
+  box-shadow: 0px 0px 100px black;
+  justify-items: center;
+  align-items: center;
+}
+
+#restart,
+#restart_menu {
+  background-size: cover;
+  border: none;
+  margin: 0 auto;
+  width: 10vw;
+  grid-column: 1;
+}
+
+#rank,
+#rank_menu {
+  background-size: cover;
+  border: none;
+  margin: 0 auto;
+  width: 10vw;
+}
+
+#ranking {
+  position: absolute;
+  width: 50vw;
+  height: 50vh;
+  background-color: #a48fa5;
+  border: 10px solid;
+  border-radius: 10px;
+  border-color: #312630;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  display: none;
+  box-shadow: 0px 0px 100px black;
+  justify-items: center;
+  align-items: center;
+  z-index: 10;
+}
+
+#top-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 95%;
+  padding: 2%;
+}
+
+#top-row img {
+  width: 5vw;
+  height: 5vh;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 20%;
+}
+
+#top-row h3 {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 80%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.ranking-container {
+  display: block;
+  margin-top: 5vh;
+}
+
+#close-ranking {
+  float: right;
+  padding: 1%;
+}
+
+#menu {
+  position: absolute;
+  width: 50vw;
+  height: 50vh;
+  background-color: #a48fa5;
+  border: 10px solid;
+  border-radius: 10px;
+  border-color: #312630;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  display: none;
+  box-shadow: 0px 0px 100px black;
+  grid-template-columns: 35% 35% auto auto;
+  align-content: space-evenly;
+  justify-content: center;
+}
+
+#music {
+  background-size: cover;
+  border: none;
+  margin: 0 auto;
+  width: 10vw;
+  grid-column: 1;
+}
+
+#music_mute {
+  background-size: cover;
+  border: none;
+  margin: 0 auto;
+  width: 10vw;
+  grid-column: 1;
+  display: none;
+}
+
+#close-menu {
+  padding: 1%;
+  position: absolute;
+  left: auto;
+  right: 0;
+}
+
+@font-face {
+  font-family: "bungeeregular";
+  src: url("./assets/bungee-webfont.woff2") format("woff2"),
+    url("./assets/bungee-webfont.woff") format("woff"),
+    url("./assets/Bungee.ttf") format("ttf");
 }

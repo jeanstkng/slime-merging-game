@@ -13,15 +13,16 @@ import { IImages } from "../interfaces/IImages";
 class Dropper extends ex.Actor {
   private dropDelay: number = 1500;
   private dropCounter: number = 0;
-  private canDrop: boolean = true;
+  private canDrop: boolean = false;
   private rightLimit: number = 853;
   private leftLimit: number = 426;
+  private upperLimit: number = 100;
   private actualSlimeDropping: ex.ActorArgs = {};
   private actualSlimeCircle!: ex.Actor;
   private readonly maxVariant: number = 5;
 
   public onInitialize(engine: ex.Engine): void {
-    this.graphics.add(getSpriteWithSize(Images.moustacheImage, 64));
+    // this.graphics.add(getSpriteWithSize(Images.moustacheImage, 64)); DESCOMENTAR
     this.graphics.offset = new ex.Vector(30, 0);
 
     this.actualSlimeDropping = slimeVariants[gameState.actualVariantIndex];
@@ -33,14 +34,16 @@ class Dropper extends ex.Actor {
       height: this.actualSlimeDropping.radius,
     });
 
-    this.actualSlimeCircle.graphics.use(
-      getSpriteWithSize(
-        Images[`slime${gameState.actualVariantIndex}Image` as keyof IImages],
-        this.actualSlimeDropping.radius!
-      )
-    );
+    // this.actualSlimeCircle.graphics.use(
+    //   getSpriteWithSize(
+    //     Images[`slime${gameState.actualVariantIndex}Image` as keyof IImages],
+    //     this.actualSlimeDropping.radius!
+    //   )
+    // ); DESCOMENTAR
 
     engine.add(this.actualSlimeCircle);
+    this._handleRightClick(engine);
+    this._handleTouchEnd(engine);
   }
 
   public update(engine: ex.Engine, delta: number): void {
@@ -59,12 +62,12 @@ class Dropper extends ex.Actor {
 
       this.actualSlimeDropping = slimeVariants[gameState.actualVariantIndex];
 
-      this.actualSlimeCircle.graphics.use(
-        getSpriteWithSize(
-          Images[`slime${gameState.actualVariantIndex}Image` as keyof IImages],
-          this.actualSlimeDropping.radius!
-        )
-      );
+      // this.actualSlimeCircle.graphics.use(
+      //   getSpriteWithSize(
+      //     Images[`slime${gameState.actualVariantIndex}Image` as keyof IImages],
+      //     this.actualSlimeDropping.radius!
+      //   )
+      // ); DESCOMENTAR
     } else {
       this.dropCounter += delta;
     }
@@ -73,12 +76,11 @@ class Dropper extends ex.Actor {
       engine.input.pointers.at(0).lastScreenPos.x;
     if (
       lastScreenMouseHorizontalPos > this.leftLimit &&
-      lastScreenMouseHorizontalPos < this.rightLimit
+      lastScreenMouseHorizontalPos < this.rightLimit &&
+      !gameState.isGameOver
     ) {
       dropper.pos.x = engine.input.pointers.at(0).lastScreenPos.x;
     }
-
-    this._handleRightClick(engine);
   }
 
   private _handleRightClick(engine: ex.Engine): void {
@@ -86,23 +88,50 @@ class Dropper extends ex.Actor {
       if (
         pe.pointerType === ex.PointerType.Mouse &&
         pe.button === ex.PointerButton.Left &&
-        this.canDrop
+        this.canDrop &&
+        !gameState.isGameOver &&
+        pe.worldPos.x > this.leftLimit &&
+        pe.worldPos.x < this.rightLimit &&
+        pe.worldPos.y > this.upperLimit
       ) {
         this.canDrop = false;
+        this.actualSlimeCircle.graphics.visible = false;
 
         const slimeProps = slimeVariants[gameState.actualVariantIndex];
 
         const slime: Slime = generateSlime(dropper.pos, slimeProps);
 
         engine.add(slime);
-      } else if (pe.pointerType === ex.PointerType.Touch) {
-        ex.Logger.getInstance().info("Touch event:", pe);
+      }
+    });
+  }
+
+  private _handleTouchEnd(engine: ex.Engine): void {
+    engine.input.pointers.primary.on("up", (pe) => {
+      if (
+        pe.pointerType === ex.PointerType.Touch &&
+        this.canDrop &&
+        !gameState.isGameOver &&
+        pe.worldPos.x > this.leftLimit &&
+        pe.worldPos.x < this.rightLimit &&
+        pe.worldPos.y > this.upperLimit
+      ) {
+        this.canDrop = false;
+
+        const slimeProps = slimeVariants[0];
+
+        const slime: Slime = generateSlime(dropper.pos, slimeProps);
+
+        engine.add(slime);
       }
     });
   }
 }
 
 export const dropper: Dropper = new Dropper({
-  x: 1280 / 2,
+  x: 640,
   y: 60,
+  width: 32,
+  height: 32,
+  color: ex.Color.Blue
 });

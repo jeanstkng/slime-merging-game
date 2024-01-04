@@ -13,4 +13,6 @@ export interface IImages {
   slime9Image: ImageSource;
   slime10Image: ImageSource;
   moustacheImage: ImageSource;
+  basketImage: ImageSource;
+  menuImage: ImageSource;
 }

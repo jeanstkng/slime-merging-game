@@ -15,12 +15,12 @@ class Slime extends Actor {
   private hasCollided: boolean = false;
 
   onInitialize(engine: Engine): void {
-    this.graphics.use(
-      getSpriteWithSize(
-        Images[`slime${this.name}Image` as keyof IImages],
-        this.width
-      )
-    );
+    // this.graphics.use(
+    //   getSpriteWithSize(
+    //     Images[`slime${this.name}Image` as keyof IImages],
+    //     this.width
+    //   )
+    // ); DESCOMENTAR
 
     this.body.bounciness = this.bounciness;
     this.body.friction = 15;

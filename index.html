@@ -2,12 +2,47 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/style.css" />
-    <title>Suika TS</title>
+    <title>Slime Merging Game</title>
   </head>
   <body>
+    <div id="gameover">
+      <img id="restart" src="/restart.png" />
+      <img id="rank" src="/trophy.svg" />
+    </div>
+    <div id="menu">
+      <img id="close-menu" src="/close.svg" />
+      <img id="restart_menu" src="/restart.png" />
+      <img id="rank_menu" src="/trophy.svg" />
+      <img id="music" src="/music.svg" />
+      <img id="music_mute" src="/music_mute.svg" />
+    </div>
+    <div id="ranking">
+      <img id="close-ranking" src="/close.svg" />
+      <div class="ranking-container">
+        <div id="top-row">
+          <img src="/trophy.svg" />
+          <h3 id="rank1">0</h3>
+        </div>
+        <div id="top-row">
+          <img src="/trophy_silver.svg" />
+          <h3 id="rank2">0</h3>
+        </div>
+        <div id="top-row">
+          <img src="/trophy_bronze.svg" />
+          <h3 id="rank3">0</h3>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
+  <style>
+    canvas {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: auto;
+    }
+  </style>
 </html>
