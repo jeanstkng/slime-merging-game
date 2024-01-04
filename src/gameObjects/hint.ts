@@ -35,54 +35,54 @@ const fusionHint = new GraphicsGroup({
   members: [
     {
       graphic: getSpriteWithSize(Images.slime0Image, 24),
-      pos: vec(16, -12),
+      pos: vec(-12, 16),
     },
     {
       graphic: getSpriteWithSize(Images.slime1Image, 30),
-      pos: vec(42, -15),
+      pos: vec(-15, 42),
     },
     {
       graphic: getSpriteWithSize(Images.slime2Image, 36),
-      pos: vec(75, -18),
+      pos: vec(-18, 75),
     },
     {
       graphic: getSpriteWithSize(Images.slime3Image, 42),
-      pos: vec(114, -21),
+      pos: vec(-21, 114),
     },
     {
       graphic: getSpriteWithSize(Images.slime4Image, 48),
-      pos: vec(158, -24),
+      pos: vec(-24, 158),
     },
     {
       graphic: getSpriteWithSize(Images.slime5Image, 54),
-      pos: vec(208, -27),
+      pos: vec(-27, 208),
     },
     {
       graphic: getSpriteWithSize(Images.slime6Image, 60),
-      pos: vec(264, -30),
+      pos: vec(-30, 264),
     },
     {
       graphic: getSpriteWithSize(Images.slime7Image, 66),
-      pos: vec(326, -33),
+      pos: vec(-33, 326),
     },
     {
       graphic: getSpriteWithSize(Images.slime8Image, 72),
-      pos: vec(395, -36),
+      pos: vec(-36, 395),
     },
     {
       graphic: getSpriteWithSize(Images.slime9Image, 78),
-      pos: vec(470, -39),
+      pos: vec(-39, 470),
     },
     {
       graphic: getSpriteWithSize(Images.slime10Image, 84),
-      pos: vec(550, -42),
+      pos: vec(-42, 550),
     },
   ],
 });
 
 const fusionHintActor: Actor = new Actor({
-  y: 600,
-  x: 320,
+  y: 360,
+  x: 1000,
 });
 
 fusionHintActor.graphics.add(fusionHint);

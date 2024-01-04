@@ -20,9 +20,10 @@ class Dropper extends ex.Actor {
   private actualSlimeDropping: ex.ActorArgs = {};
   private actualSlimeCircle!: ex.Actor;
   private readonly maxVariant: number = 5;
+  private helpLine!: ex.Actor;
 
   public onInitialize(engine: ex.Engine): void {
-    // this.graphics.add(getSpriteWithSize(Images.moustacheImage, 64)); DESCOMENTAR
+    this.graphics.add(getSpriteWithSize(Images.moustacheImage, 64));
     this.graphics.offset = new ex.Vector(30, 0);
 
     this.actualSlimeDropping = slimeVariants[gameState.actualVariantIndex];
@@ -34,24 +35,33 @@ class Dropper extends ex.Actor {
       height: this.actualSlimeDropping.radius,
     });
 
-    // this.actualSlimeCircle.graphics.use(
-    //   getSpriteWithSize(
-    //     Images[`slime${gameState.actualVariantIndex}Image` as keyof IImages],
-    //     this.actualSlimeDropping.radius!
-    //   )
-    // ); DESCOMENTAR
-
     engine.add(this.actualSlimeCircle);
     this._handleRightClick(engine);
     this._handleTouchEnd(engine);
+
+    this.helpLine = new ex.Actor({
+      pos: ex.vec(this.pos.x, this.pos.y),
+      z: -1,
+    });
+    this.helpLine.graphics.anchor = ex.Vector.Zero;
+    this.helpLine.graphics.use(
+      new ex.Line({
+        start: ex.vec(0, 0),
+        end: ex.vec(0, 530),
+        color: ex.Color.LightGray,
+        thickness: 8,
+      })
+    );
+    engine.add(this.helpLine);
   }
 
   public update(engine: ex.Engine, delta: number): void {
     this.actualSlimeCircle.pos = this.pos;
+    this.helpLine.pos = this.pos;
 
     if (this.dropCounter > this.dropDelay && !this.canDrop) {
       this.dropCounter = 0;
-      this.canDrop = true;
+      this.actualSlimeCircle.graphics.visible = true;
 
       setActualVariantIndex(gameState, gameState.followingVariantIndex);
 
@@ -62,12 +72,13 @@ class Dropper extends ex.Actor {
 
       this.actualSlimeDropping = slimeVariants[gameState.actualVariantIndex];
 
-      // this.actualSlimeCircle.graphics.use(
-      //   getSpriteWithSize(
-      //     Images[`slime${gameState.actualVariantIndex}Image` as keyof IImages],
-      //     this.actualSlimeDropping.radius!
-      //   )
-      // ); DESCOMENTAR
+      this.actualSlimeCircle.graphics.use(
+        getSpriteWithSize(
+          Images[`slime${gameState.actualVariantIndex}Image` as keyof IImages],
+          this.actualSlimeDropping.radius!
+        )
+      );
+      this.canDrop = true;
     } else {
       this.dropCounter += delta;
     }
@@ -118,7 +129,7 @@ class Dropper extends ex.Actor {
       ) {
         this.canDrop = false;
 
-        const slimeProps = slimeVariants[0];
+        const slimeProps = slimeVariants[gameState.actualVariantIndex];
 
         const slime: Slime = generateSlime(dropper.pos, slimeProps);
 
@@ -131,7 +142,4 @@ class Dropper extends ex.Actor {
 export const dropper: Dropper = new Dropper({
   x: 640,
   y: 60,
-  width: 32,
-  height: 32,
-  color: ex.Color.Blue
 });

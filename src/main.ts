@@ -1,8 +1,7 @@
-// ES style import from excalibur
 import { Color, Engine, Physics, vec } from "excalibur";
 import { initializeBasket } from "./gameObjects/basket";
 import { dropper } from "./gameObjects/dropper";
-import { loader } from "./managers/assetsManager";
+import { loader, music } from "./managers/assetsManager";
 import { fusionHintActor, hint } from "./gameObjects/hint";
 import { scoreText } from "./gameObjects/score";
 import {
@@ -26,13 +25,15 @@ const game = new Engine({
   backgroundColor: Color.fromHex("#ff9c9c"),
 });
 
-game.start(loader);
+game.start(loader).then(async () => {
+  music.play(0.25);
+});
 
 initializeBasket(game);
 initializeLimits(game);
 
 game.add(dropper);
-// game.add(hint);
+game.add(hint);
 game.add(scoreText);
 game.add(menuBtn);
 
@@ -46,4 +47,4 @@ initializeMuteMusic();
 initializeUnmuteMusic();
 initializeExitGame();
 
-// game.add(fusionHintActor);
+game.add(fusionHintActor);

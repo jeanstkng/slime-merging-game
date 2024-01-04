@@ -2,9 +2,9 @@ import { Actor, Engine } from "excalibur";
 import { slimeVariants } from "../constants/slimeVariants";
 import { gameState, setIsGameOver, setScore } from "./gameManager";
 import { scoreText, text } from "../gameObjects/score";
-// import { getScoresDB } from "./dbManager";
 import { Images, music } from "./assetsManager";
 import { App } from "@capacitor/app";
+import { getScoresDB, initializeDB } from "./dbManager";
 
 const initializeRestart = (game: Engine, id: string) => {
   document.getElementById(id)?.addEventListener("pointerup", () => {
@@ -32,14 +32,13 @@ const initializeRanking = (id: string) => {
   document.getElementById(id)?.addEventListener("pointerup", async () => {
     document.getElementById("ranking")!.style.display = "block";
 
-    // const scores: any[] = await getScoresDB();
-    // const sortedScores = scores.sort((a, b) => b.score - a.score);
+    await initializeDB();
+    const scores: any[] = await getScoresDB();
+    const sortedScores = scores.sort((a, b) => b.score - a.score);
 
-    // console.log(sortedScores);
-
-    // sortedScores.forEach((item, idx) => {
-    //   document.getElementById(`rank${idx + 1}`)!.innerText = item.score;
-    // });
+    sortedScores.forEach((item, idx) => {
+      document.getElementById(`rank${idx + 1}`)!.innerText = item.score;
+    });
   });
 };
 
@@ -100,5 +99,5 @@ export {
   initializeCloseMenu,
   initializeMuteMusic,
   initializeUnmuteMusic,
-  initializeExitGame
+  initializeExitGame,
 };

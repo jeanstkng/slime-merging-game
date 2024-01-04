@@ -2,7 +2,7 @@ import { Actor, Font, Text } from "excalibur";
 
 const text = new Text({
   text: "SCORE: 0",
-  font: new Font({ size: 30 }),
+  font: new Font({ size: 36, family: "bungeeregular" }),
   maxWidth: 300,
 });
 

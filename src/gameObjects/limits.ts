@@ -4,7 +4,7 @@ const limitsGroup = CollisionGroupManager.create("limits");
 
 const upperLimit: Actor = new Actor({
   x: 640,
-  y: 20,
+  y: 0,
   width: 640,
   height: 10,
   collisionGroup: limitsGroup,
