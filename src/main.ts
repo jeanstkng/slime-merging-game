@@ -27,6 +27,7 @@ const game = new Engine({
 
 game.start(loader).then(async () => {
   music.play(0.25);
+  music.loop = true;
 });
 
 initializeBasket(game);

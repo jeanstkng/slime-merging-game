@@ -1,4 +1,4 @@
-import { ActorArgs, Color } from "excalibur";
+import { ActorArgs } from "excalibur";
 
 const slimeVariants: ActorArgs[] = [
   {
